@@ -95,4 +95,4 @@ Tile IDs are used to store tiles in their matrices:
 - `9`: `9`: Unused. If I were thinking while making this program, this could've been used for the bomb.
 - `10`: ` `: A blank tile.
 
-Tiles are drawn to the screen from <kbd>Str1</kbd>, where `-3` is the first character of the string.
+Tiles are drawn to the screen from <kbd>Str1</kbd>, where `-3` is the first character of the string. Sometimes, tiles are drawn directly from a "string" value, making changing Str1 not a reliable way to re-skin tisweeper.
