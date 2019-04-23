@@ -68,6 +68,8 @@ A flag is added at the cursor, or removed if it was already added.
 
 Space clearing mode loops from top right to bottom left, then back again, clearing a 3x3 around each blank space tile. It then replaces these with tile id 10 which is blank space, from tile id 0 which is not yet cleared blank space.
 
+In the future, tiles that need space clearing could be added to a list in order to skip the slow searching process and go right to clearing tiles.
+
 #### Winning
 
 When the number of tiles remaining equals the number of bombs, you win.
