@@ -1,7 +1,7 @@
-"*+·.123456789 ▫"→Str1
+"*+·•123456789 ▫"→Str1
 
 
-Menu("MINESWEEPER","NEW GAME",NG,"CONTINUE",GM)
+Menu("TISWEEPER","NEW GAME",NG,"CONTINUE",GM)
 
 Lbl NG
 
@@ -55,13 +55,14 @@ End
 
 ClrHome
 Output(1,1," ADDING TILES [         ] ")
-
+0→W
 
 For(Y,1,9,1)
 :For(X,1,26,1)
 ::0→M
 ::If [G](Y+1,X+1)=1:Then
 :::­3→M
+:::W+1→W
 ::Else
 :::M+[G](Y+0,X+0)→M
 :::M+[G](Y+1,X+0)→M
@@ -81,6 +82,7 @@ End
 {9,26}→dim([G])
 Fill(­1,[G])
 
+9*26→R
 
 Goto SP
 Lbl GM
@@ -105,19 +107,35 @@ Lbl SP
 Output(T+1,S,"▫")
 
 0→O
+­1→P
 
 Lbl LP
+:If R≤W:Then
+::Goto YW
+:End
+:
+:
 :If O:Then
 ::Output(1,1," CLEARING SPACE [       ] ")
 ::0→O
-::For(Y,1,9)
-:::For(X,1,26)
+::If P=­1:Then
+:::1→P
+:::1→I:9→J:1→K:26→L
+::Else
+:::­1→P
+:::9→I:1→J:26→K:1→L
+::End
+::For(Y,I,J,P)
+:::For(X,K,L,P)
 ::::[G](Y,X)→M
 ::::If M=0:Then
 :::::1→O
 For(θ,max(Y-1,1),min(Y+1,9))
 :For(Z,max(X-1,1),min(X+1,26))
 ::[H](θ,Z)→N
+::If [G](θ,Z)=­1:Then
+:::R-1→R
+::End
 ::If θ=Y and Z=X:Then
 :::10→N
 :::N→[H](θ,Z)
@@ -134,8 +152,8 @@ End
 ::Goto LP
 :End
 :
-:Output(1,1," MINESWEEPER              ")
-:
+:Output(1,1," TISWEEPER     TILES LEFT ")
+:Output(1,12,R-W)
 :
 :0→K
 :While K=0
@@ -148,6 +166,10 @@ End
 ::End
 ::If M=0:Then
 :::1→O
+::End
+::[G](T,S)→N
+::If N=­1 or N=­2:Then
+:::R-1→R
 ::End
 ::M→[G](T,S)
 ::Output(T+1,S,sub(Str1,M+4,1))
@@ -186,9 +208,18 @@ End
 :Output(T+1,S,"▫")
 Goto LP
 
+Lbl YW
+
+Output(1,1,"  YOU WON                 ")
+
+
+Goto EX
 Lbl LO
 
 Output(1,1," YOU LOST                ")
+
+Lbl EX
+
 For(Y,1,9)
 :For(X,1,26)
 ::If [H](Y,X)=­3:Then
@@ -196,6 +227,9 @@ For(Y,1,9)
 ::End
 :End
 End
+
+
+
 Pause 
 
 
