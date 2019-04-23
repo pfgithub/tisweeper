@@ -1,0 +1,203 @@
+"*+·.123456789 ▫"→Str1
+
+
+Menu("MINESWEEPER","NEW GAME",NG,"CONTINUE",GM)
+
+Lbl NG
+
+
+
+ClrHome
+
+Menu("DIFFICULTY","EASY",Aθ,"NORMAL",Bθ,"HARD",Cθ,"CUSTOM",θθ)
+
+Lbl Aθ
+8→N
+Goto Nθ
+Lbl Bθ
+16→N
+Goto Nθ
+Lbl Cθ
+32→N
+Goto Nθ
+Lbl θθ
+Prompt N
+int(N)→N
+abs(N)→N
+Goto Nθ
+
+Lbl Nθ
+
+ClrHome
+
+Output(4,6,"STARTING NEW GAME")
+Output(6,6,"GENERATING TABLES")
+Output(7,10,"[      ]")
+
+{11,28}→dim([G])
+Fill(0,[G])
+Output(7,11,"XX")
+
+{9,26}→dim([H])
+Output(7,13,"XX")
+
+Output(6,6,"  ADDING MINES   ")
+Output(7,11,"      ")
+
+For(M,1,N)
+:randInt(2,27)→X
+:randInt(2,10)→Y
+:
+:1→[G](Y,X)
+:
+:Output(7,11+int(M/N*5),"X")
+End
+
+ClrHome
+Output(1,1," ADDING TILES [         ] ")
+
+
+For(Y,1,9,1)
+:For(X,1,26,1)
+::0→M
+::If [G](Y+1,X+1)=1:Then
+:::­3→M
+::Else
+:::M+[G](Y+0,X+0)→M
+:::M+[G](Y+1,X+0)→M
+:::M+[G](Y+2,X+0)→M
+:::M+[G](Y+0,X+1)→M
+:::M+[G](Y+2,X+1)→M
+:::M+[G](Y+0,X+2)→M
+:::M+[G](Y+1,X+2)→M
+:::M+[G](Y+2,X+2)→M
+::End
+::M→[H](Y,X)
+::Output(Y+1,X,"·")
+:End
+:Output(1,15+Y,"X")
+End
+
+{9,26}→dim([G])
+Fill(­1,[G])
+
+
+Goto SP
+Lbl GM
+
+ClrHome
+
+Output(1,1," LOADING GAME [         ] "
+
+For(Y,1,9,1)
+:For(X,1,26,1)
+::
+::Output(Y+1,X,sub(Str1,[G](Y,X)+4,1))
+::
+:End
+:Output(1,15+Y,"X")
+End
+
+Lbl SP
+
+13→S
+5→T
+Output(T+1,S,"▫")
+
+0→O
+
+Lbl LP
+:If O:Then
+::Output(1,1," CLEARING SPACE [       ] ")
+::0→O
+::For(Y,1,9)
+:::For(X,1,26)
+::::[G](Y,X)→M
+::::If M=0:Then
+:::::1→O
+For(θ,max(Y-1,1),min(Y+1,9))
+:For(Z,max(X-1,1),min(X+1,26))
+::[H](θ,Z)→N
+::If θ=Y and Z=X:Then
+:::10→N
+:::N→[H](θ,Z)
+::End
+::N→[G](θ,Z)
+::Output(θ+1,Z,sub(Str1,N+4,1))
+:End
+End
+:::::
+::::End
+:::End
+:::Output(1,18+int(Y/9*6),"X")
+::End
+::Goto LP
+:End
+:
+:Output(1,1," MINESWEEPER              ")
+:
+:
+:0→K
+:While K=0
+::getKey→K
+:End
+:If K=105:Then
+::[H](T,S)→M
+::If M=­3:Then
+:::Goto LO
+::End
+::If M=0:Then
+:::1→O
+::End
+::M→[G](T,S)
+::Output(T+1,S,sub(Str1,M+4,1))
+::Goto LP
+:End
+:If K=95:Then
+::[G](T,S)→M
+::M→N
+::If M=­2:Then
+:::­1→N
+::End
+::If M=­1:Then
+:::­2→N
+::End
+::
+::N→[G](T,S)
+::
+::Output(T+1,S,sub(Str1,N+4,1))
+::Goto LP
+:End
+:
+:Output(T+1,S,sub(Str1,[G](T,S)+4,1))
+:
+:If K=25:Then
+::max(T-1,1)→T
+:End
+:If K=24:Then
+::max(S-1,1)→S
+:End
+:If K=34:Then
+::min(T+1,9)→T
+:End
+:If K=26:Then
+::min(S+1,26)→S
+:End
+:Output(T+1,S,"▫")
+Goto LP
+
+Lbl LO
+
+Output(1,1," YOU LOST                ")
+For(Y,1,9)
+:For(X,1,26)
+::If [H](Y,X)=­3:Then
+:::Output(Y+1,X,"*")
+::End
+:End
+End
+Pause 
+
+
+
+
