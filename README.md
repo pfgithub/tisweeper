@@ -46,7 +46,27 @@ Resuming a game loops over all the revealed tiles <kbd>[G]</kbd> and shows them 
 
 ### Playing the game [`<>`](https://github.com/pfgithub/tisweeper/blob/4bbd8f9b230cedfd980abc7bd6239688e45f8121/tisweeper#L112-L233)
 
+Each loop step, the game waits for a key to be pressed. Based on the key, it does a different thing:
 
+#### Reveal a tile [`<>`](https://github.com/pfgithub/tisweeper/blob/4bbd8f9b230cedfd980abc7bd6239688e45f8121/tisweeper#L162-L177)
+
+A tile is revealed by moving its real value at <kbd>S</kbd>, <kbd>T</kbd> from <kbd>[H]</kbd> to <kbd>[G]</kbd>. If this tile is a blank space, space clearing mode is activated.
+
+#### Move the cursor [`<>`](https://github.com/pfgithub/tisweeper/blob/4bbd8f9b230cedfd980abc7bd6239688e45f8121/tisweeper#L194-L209)
+
+Before moving the cursor, the current tile at <kbd>S</kbd>, <kbd>T</kbd> is drawn from <kbd>[G]</kbd> to the screen. Then, based on what key was pressed, the cursor is moved. The new cursor is drawn at the new <kbd>S</kbd>, <kbd>T</kbd> position.
+
+#### Add a flag [`<>`](https://github.com/pfgithub/tisweeper/blob/4bbd8f9b230cedfd980abc7bd6239688e45f8121/tisweeper#L178-L192)
+
+A flag is added at the cursor, or removed if it was already added.
+
+
+
+
+
+#### Space clearing mode [`<>`](https://github.com/pfgithub/tisweeper/blob/4bbd8f9b230cedfd980abc7bd6239688e45f8121/tisweeper#L118-L153)
+
+Space clearing mode loops from top right to bottom left, then back again, clearing a 3x3 around each blank space tile. It then replaces these with tile id 10 which is blank space, from tile id 0 which is not yet cleared blank space.
 
 #### Winning
 
@@ -55,3 +75,24 @@ When the number of tiles remaining equals the number of bombs, you win.
 #### Losing
 
 When you reveal a bomb, you lose.
+
+
+### Tile IDs
+
+Tile IDs are used to store tiles in their matrices:
+- `-3`: `*`: A bomb.
+- `-2`: `+`: A flag.
+- `-1`: `·`: A tile that is not yet uncovered.
+- `0`: `•`: A tile which is in the process of being uncovered in space clearing mode.
+- `1`: `1`: A tile with 1 bomb around it.
+- `2`: `2`: A tile with 2 bombs around it.
+- `3`: `3`: A tile with 3 bombs around it.
+- `4`: `4`: A tile with 4 bombs around it.
+- `5`: `5`: A tile with 5 bombs around it.
+- `6`: `6`: A tile with 6 bombs around it.
+- `7`: `7`: A tile with 7 bombs around it.
+- `8`: `8`: A tile with 8 bombs around it.
+- `9`: `9`: Unused. If I were thinking while making this program, this could've been used for the bomb.
+- `10`: ` `: A blank tile.
+
+Tiles are drawn to the screen from <kbd>Str1</kbd>, where `-3` is the first character of the string.
