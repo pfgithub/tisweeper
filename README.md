@@ -20,43 +20,45 @@ tisweeper uses the variables
 - <kbd>M</kbd>, <kbd>N</kbd> Temporary variable used as needed
 - <kbd>K</kbd> The last key that was pressed
 - <kbd>S</kbd>, <kbd>T</kbd> For storing the location of the cursor
+- <kbd>L1</kbd>, <kbd>L2</kbd> Used for storing the X and Y positions of tiles that need revealing
+- <kbd>⌊θ</kbd> Used by dispmenu to create menus
 
 ## How it works
 
-### New Game [`<>`](https://github.com/pfgithub/tisweeper/blob/4bbd8f9b230cedfd980abc7bd6239688e45f8121/tisweeper#L6-L87)
+### New Game
 
-During setup, the <kbd>[G]</kbd> variable is used to store the location of the bombs and is 28x11 for convenience [`<>`](https://github.com/pfgithub/tisweeper/blob/4bbd8f9b230cedfd980abc7bd6239688e45f8121/tisweeper#L37). <kbd>[H]</kbd> is used to store the tile scores of each tile (0-8) [`<>`](https://github.com/pfgithub/tisweeper/blob/4bbd8f9b230cedfd980abc7bd6239688e45f8121/tisweeper#L41) <kbd>N</kbd> is used to store the difficulty [`<>`](https://github.com/pfgithub/tisweeper/blob/4bbd8f9b230cedfd980abc7bd6239688e45f8121/tisweeper#L12).
+During setup, the <kbd>[G]</kbd> variable is used to store the location of the bombs and is 28x11 for convenience. <kbd>[H]</kbd> is used to store the tile scores of each tile (0-8) <kbd>N</kbd> is used to store the difficulty.
 
 Setup happens in two stages:
 
-- Placing bombs [`<>`](https://github.com/pfgithub/tisweeper/blob/4bbd8f9b230cedfd980abc7bd6239688e45f8121/tisweeper#L44-L54)
-- Calculating tile scores (0-8) [`<>`](https://github.com/pfgithub/tisweeper/blob/4bbd8f9b230cedfd980abc7bd6239688e45f8121/tisweeper#L56-L80)
+- Placing bombs
+- Calculating tile scores (0-8)
 
-#### Placing Bombs [`<>`](https://github.com/pfgithub/tisweeper/blob/4bbd8f9b230cedfd980abc7bd6239688e45f8121/tisweeper#L44-L54)
+#### Placing Bombs
 
-<kbd>N</kbd> bombs are placed randomly on <kbd>[G]</kbd>. Since <kbd>[G]</kbd> is actually 28x11 and the game screen is only 26x9, bombs are actually placed from 2..27 on X and 2..10 on Y [`<>`](https://github.com/pfgithub/tisweeper/blob/4bbd8f9b230cedfd980abc7bd6239688e45f8121/tisweeper#L48-L49). There is no checking if bombs overlap eachother, on large bomb counts it is likely that less than <kbd>N</kbd> bombs will be placed because some overlap eachother.
+<kbd>N</kbd> bombs are placed randomly on <kbd>[G]</kbd>. Since <kbd>[G]</kbd> is actually 28x11 and the game screen is only 26x9, bombs are actually placed from 2..27 on X and 2..10 on Y. There is no checking if bombs overlap eachother, on large bomb counts it is likely that less than <kbd>N</kbd> bombs will be placed because some overlap eachother.
 
-#### Calculating tile scores [`<>`](https://github.com/pfgithub/tisweeper/blob/4bbd8f9b230cedfd980abc7bd6239688e45f8121/tisweeper#L56-L80)
+#### Calculating tile scores
 
-This is usually the longest section of making a new game (unless a very high number of bombs were requested to be placed). In this section, the game loops over every tile (1..26 and 1..9), calculates its score, and stores it to <kbd>[H]</kbd> [`<>`](https://github.com/pfgithub/tisweeper/blob/4bbd8f9b230cedfd980abc7bd6239688e45f8121/tisweeper#L56-L80). Score calculation is easy because the <kbd>[G]</kbd> map of bombs is larger than the game board. For each tile on the game board, a score is created as the result of adding all 8 tiles around it from <kbd>[G]</kbd> [`<>`](https://github.com/pfgithub/tisweeper/blob/4bbd8f9b230cedfd980abc7bd6239688e45f8121/tisweeper#L62-L77). This section also counts how many bombs actually got placed into <kbd>W</kbd> [`<>`](https://github.com/pfgithub/tisweeper/blob/4bbd8f9b230cedfd980abc7bd6239688e45f8121/tisweeper#L65).
+This is usually the longest section of making a new game (unless a very high number of bombs were requested to be placed). In this section, the game loops over every tile (1..26 and 1..9), calculates its score, and stores it to <kbd>[H]</kbd>. Score calculation is easy because the <kbd>[G]</kbd> map of bombs is larger than the game board. For each tile on the game board, a score is created as the result of adding all 8 tiles around it from <kbd>[G]</kbd>. This section also counts how many bombs actually got placed into <kbd>W</kbd>.
 
-### Resume Game [`<>`](https://github.com/pfgithub/tisweeper/blob/4bbd8f9b230cedfd980abc7bd6239688e45f8121/tisweeper#L88-L111)
+### Resume Game
 
 Resuming a game loops over all the revealed tiles <kbd>[G]</kbd> and shows them on the screen.
 
-### Playing the game [`<>`](https://github.com/pfgithub/tisweeper/blob/4bbd8f9b230cedfd980abc7bd6239688e45f8121/tisweeper#L112-L233)
+### Playing the game
 
 Each loop step, the game waits for a key to be pressed. Based on the key, it does a different thing:
 
-#### Reveal a tile [`<>`](https://github.com/pfgithub/tisweeper/blob/4bbd8f9b230cedfd980abc7bd6239688e45f8121/tisweeper#L162-L177)
+#### Reveal a tile
 
 A tile is revealed by moving its real value at <kbd>S</kbd>, <kbd>T</kbd> from <kbd>[H]</kbd> to <kbd>[G]</kbd>. If this tile is a blank space, space clearing mode is activated.
 
-#### Move the cursor [`<>`](https://github.com/pfgithub/tisweeper/blob/4bbd8f9b230cedfd980abc7bd6239688e45f8121/tisweeper#L194-L209)
+#### Move the cursor
 
 Before moving the cursor, the current tile at <kbd>S</kbd>, <kbd>T</kbd> is drawn from <kbd>[G]</kbd> to the screen. Then, based on what key was pressed, the cursor is moved. The new cursor is drawn at the new <kbd>S</kbd>, <kbd>T</kbd> position.
 
-#### Add a flag [`<>`](https://github.com/pfgithub/tisweeper/blob/4bbd8f9b230cedfd980abc7bd6239688e45f8121/tisweeper#L178-L192)
+#### Add a flag
 
 A flag is added at the cursor, or removed if it was already added.
 
@@ -64,11 +66,9 @@ A flag is added at the cursor, or removed if it was already added.
 
 
 
-#### Space clearing mode [`<>`](https://github.com/pfgithub/tisweeper/blob/4bbd8f9b230cedfd980abc7bd6239688e45f8121/tisweeper#L118-L153)
+#### Space clearing mode
 
-Space clearing mode loops from top right to bottom left, then back again, clearing a 3x3 around each blank space tile. It then replaces these with tile id 10 which is blank space, from tile id 0 which is not yet cleared blank space.
-
-In the future, tiles that need space clearing could be added to a list in order to skip the slow searching process and go right to clearing tiles.
+Space clearing mode loops over every tile in (L1, L2) and reveals a 3x3 around it.
 
 #### Winning
 
