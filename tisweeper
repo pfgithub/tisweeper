@@ -1,34 +1,128 @@
-"*+·•123456789 ▫"→Str1
+1→A
+1→B
+
+Lbl BN
+
+"*+· 123456789 ▫"→Str1
+
+If A:ClrHome
 
 
-Menu("TISWEEPER","NEW GAME",NG,"CONTINUE",GM)
 
+Disp " TISWEEPER
+Disp "
+Disp "  1: NEW GAME
+Disp "  2: CONTINUE
+Disp "  3: SETTINGS
+Disp "
+Disp "
+Disp "
+Disp "
+
+{3}:prgmDISPMENU:Ans→θ
+If θ=1
+Goto NG
+If θ=2
+Goto GM
+If θ=3
+Goto SQ
+
+
+Lbl SQ
+1→θ
+Lbl SE
+
+If A:ClrHome
+
+
+Disp "SETTINGS
+Disp "
+Disp "  1: MENU TRANSITIONS [ ] "
+If not(A)
+Output(9,24,"X
+Disp "  2: THEME                "
+Output(A4+not(A)9,15,"[DEFAULT V]")
+Disp "  3: AUTOCLR
+Output(A5+not(A)9,15,B
+Disp "  4: BACK
+Disp "
+Disp "
+Disp "
+
+Lbl SM
+{4,3,1,26,θ}:prgmDISPMENU:Ans→θ
+
+If θ=1:Then
+not(A→A
+End
+If θ=2:Then
+Output(4,15,"[         ]
+Output(5,15,"  DEFAULT  
+Output(6,15,"  CUSTOM   
+
+{2,5,15,25,1}:prgmDISPMENU
+
+
+2→θ
+End
+If θ=3
+not(B→B
+
+
+If θ=4
+Goto BN
+
+Goto SE
 Lbl NG
 
 
 
+If A:ClrHome
+
+Disp " DIFFICULTY
+Disp "
+Disp "  1: EASY
+Disp "  2: NORMAL
+Disp "  3: HARD
+Disp "  4: CUSTOM
+Disp "
+Disp "
+Disp "
+
+{4}:prgmDISPMENU:Ans→θ
+
+If θ=1
+8→N
+If θ=2
+16→N
+If θ=3
+32→N
+If θ=4:Then
 ClrHome
 
-Menu("DIFFICULTY","EASY",Aθ,"NORMAL",Bθ,"HARD",Cθ,"CUSTOM",θθ)
-
-Lbl Aθ
-8→N
-Goto Nθ
-Lbl Bθ
-16→N
-Goto Nθ
-Lbl Cθ
-32→N
-Goto Nθ
-Lbl θθ
-Prompt N
+Disp " DIFFICULTY
+Disp "
+Disp "  EASY: 8 MINES
+Disp "  MEDIUM: 16 MINES
+Disp "  HARD: 32 MINES
+Output(6,26,"]
+Input "[ MINES: ",N
+Output(6,26,"]
 int(N)→N
 abs(N)→N
-Goto Nθ
+End
 
-Lbl Nθ
+If A:ClrHome
+Disp "
+Disp "
+Disp "
+Disp "     STARTING NEW GAME
+Disp "
+Disp "     GENERATING TABLES
+Disp "         [      ]
+Disp "
+Disp "
 
-ClrHome
 
 Output(4,6,"STARTING NEW GAME")
 Output(6,6,"GENERATING TABLES")
@@ -53,28 +147,38 @@ For(M,1,N)
 :Output(7,11+int(M/N*5),"X")
 End
 
-ClrHome
+If A:ClrHome
+Disp " ADDING TILES [         ]
+Disp "
+Disp "
+Disp "
+Disp "
+Disp "
+Disp "
+Disp "
+Disp "
+
 Output(1,1," ADDING TILES [         ] ")
 0→W
 
 For(Y,1,9,1)
 :For(X,1,26,1)
-::0→M
-::If [G](Y+1,X+1)=1:Then
-:::­3→M
-:::W+1→W
-::Else
-:::M+[G](Y+0,X+0)→M
-:::M+[G](Y+1,X+0)→M
-:::M+[G](Y+2,X+0)→M
-:::M+[G](Y+0,X+1)→M
-:::M+[G](Y+2,X+1)→M
-:::M+[G](Y+0,X+2)→M
-:::M+[G](Y+1,X+2)→M
-:::M+[G](Y+2,X+2)→M
-::End
-::M→[H](Y,X)
-::Output(Y+1,X,"·")
+0→M
+If [G](Y+1,X+1)=1:Then
+­3→M
+W+1→W
+Else
+M+[G](Y+0,X+0)→M
+M+[G](Y+1,X+0)→M
+M+[G](Y+2,X+0)→M
+M+[G](Y+0,X+1)→M
+M+[G](Y+2,X+1)→M
+M+[G](Y+0,X+2)→M
+M+[G](Y+1,X+2)→M
+M+[G](Y+2,X+2)→M
+End
+M→[H](Y,X)
+Output(Y+1,X,"·")
 :End
 :Output(1,15+Y,"X")
 End
@@ -84,12 +188,41 @@ Fill(­1,[G])
 
 9*26→R
 
+Output(3,2,",-WELCOME TO TISWEPER--,")
+Output(4,2,"(                      )")
+Output(5,2,"( ARROWS TO MOVE CURSOR)"
+Output(6,2,"(    ENTER TO REVEAL   )")
+Output(7,2,"(     PLUS TO FLAG     )")
+Output(8,2,"(                      )")
+Output(9,2,"'---ANY KEY TO START---'")
+
+0→K
+While not(K)
+:getKey→K
+End
+
+For(Y,3,9
+For(X,2,26,6
+Output(Y,X,"······
+End
+End
+
+
+
 Goto SP
 Lbl GM
 
-ClrHome
 
-Output(1,1," LOADING GAME [         ] "
+If A:ClrHome
+Disp " LOADING GAME [         ] "
+Disp "
+Disp "
+Disp "
+Disp "
+Disp "
+Disp "
+Disp "
+Disp "
 
 For(Y,1,9,1)
 :For(X,1,26,1)
@@ -107,54 +240,75 @@ Lbl SP
 Output(T+1,S,"▫")
 
 0→O
-­1→P
+0→P
+
+
+999→dim(L₁)
+999→dim(L₂)
+­1→J
+1→G
+
+Goto LP
+
+
+Lbl CL
+::Output(1,1," CLEARING SPACE [       ] ")
+::0→O
+
+
+
+::For(L,G,J+1,1)
+L₁(L)→X
+L₂(L)→Y
+
+If [H](Y,X)=0:Then
+
+[G](Y,X)→M
+If M=0:Then
+1→O
+For(θ,max(Y-1,1),min(Y+1,9
+For(Z,max(X-1,1),min(X+1,26
+
+[H](θ,Z)→N
+If [G](θ,Z)=­1:Then
+:R-1→R
+End
+If θ=Y and Z=X:Then
+:10→N
+:N→[H](θ,Z
+End
+If [H](θ,Z)=0:Then
+:J+1→J
+:Z→L₁(J+1
+:θ→L₂(J+1
+:1→O
+End
+N→[G](θ,Z
+Output(θ+1,Z,sub(Str1,N+4,1
+End
+End
+
+End
+End
+G+1→G
+
+::End
+Goto LP
+
+Output(1,1," TISWEEPER                "
 
 Lbl LP
+:If O and B:Then
+::Goto CL
+:End
+:
 :If R≤W:Then
 ::Goto YW
 :End
-:
-:
-:If O:Then
-::Output(1,1," CLEARING SPACE [       ] ")
-::0→O
-::If P=­1:Then
-:::1→P
-:::1→I:9→J:1→K:26→L
-::Else
-:::­1→P
-:::9→I:1→J:26→K:1→L
-::End
-::For(Y,I,J,P)
-:::For(X,K,L,P)
-::::[G](Y,X)→M
-::::If M=0:Then
-:::::1→O
-For(θ,max(Y-1,1),min(Y+1,9))
-:For(Z,max(X-1,1),min(X+1,26))
-::[H](θ,Z)→N
-::If [G](θ,Z)=­1:Then
-:::R-1→R
-::End
-::If θ=Y and Z=X:Then
-:::10→N
-:::N→[H](θ,Z)
-::End
-::N→[G](θ,Z)
-::Output(θ+1,Z,sub(Str1,N+4,1))
-:End
-End
-:::::
-::::End
-:::End
-:::Output(1,18+int(Y/9*6),"X")
-::End
-::Goto LP
-:End
-:
+:If 0:Then
 :Output(1,1," TISWEEPER     TILES LEFT ")
 :Output(1,12,R-W)
-:
+:End
 :0→K
 :While K=0
 ::getKey→K
@@ -166,6 +320,9 @@ End
 ::End
 ::If M=0:Then
 :::1→O
+:::J+1→J
+:::S→L₁(J+1)
+:::T→L₂(J+1)
 ::End
 ::[G](T,S)→N
 ::If N=­1 or N=­2:Then
